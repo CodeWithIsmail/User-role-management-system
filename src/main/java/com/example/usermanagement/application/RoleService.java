@@ -1,7 +1,9 @@
 package com.example.usermanagement.application;
 
-import com.example.usermanagement.domain.Role;
 import com.example.usermanagement.application.interfaces.RoleRepository;
+import com.example.usermanagement.domain.Role;
+import jakarta.validation.constraints.NotBlank;
+import java.util.UUID;
 
 public class RoleService {
     private final RoleRepository roleRepository;
@@ -10,8 +12,8 @@ public class RoleService {
         this.roleRepository = roleRepository;
     }
 
-    public Role createRole(String roleName) {
+    public UUID createRole(@NotBlank String roleName) {
         Role role = new Role(roleName);
-        return roleRepository.save(role);
+        return roleRepository.save(role).getId();
     }
 }

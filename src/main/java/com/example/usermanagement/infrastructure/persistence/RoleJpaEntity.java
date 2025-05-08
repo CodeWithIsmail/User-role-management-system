@@ -4,10 +4,20 @@ import jakarta.persistence.*;
 import java.util.UUID;
 
 @Entity
+@Table(name = "roles")
 public class RoleJpaEntity {
     @Id
     private UUID id;
+
     private String roleName;
+
+    // Default constructor for JPA
+    public RoleJpaEntity() {}
+
+    public RoleJpaEntity(UUID id, String roleName) {
+        this.id = id;
+        this.roleName = roleName;
+    }
 
     // Getters and setters
     public UUID getId() {

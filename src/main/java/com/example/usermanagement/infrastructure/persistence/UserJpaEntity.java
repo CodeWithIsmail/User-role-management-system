@@ -1,19 +1,36 @@
 package com.example.usermanagement.infrastructure.persistence;
 
 import jakarta.persistence.*;
-import java.util.UUID;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
+@Table(name = "users")
 public class UserJpaEntity {
     @Id
     private UUID id;
+
     private String name;
+
     private String email;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
     private List<RoleJpaEntity> roles = new ArrayList<>();
+
+    // Default constructor for JPA
+    public UserJpaEntity() {}
+
+    public UserJpaEntity(UUID id, String name, String email) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+    }
 
     // Getters and setters
     public UUID getId() {
@@ -46,5 +63,9 @@ public class UserJpaEntity {
 
     public void setRoles(List<RoleJpaEntity> roles) {
         this.roles = roles;
+    }
+
+    public void addRole(RoleJpaEntity role) {
+        this.roles.add(role);
     }
 }
